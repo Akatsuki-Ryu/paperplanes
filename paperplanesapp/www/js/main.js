@@ -28,20 +28,6 @@ sample.main = (sample.main || {
 
 		$( "#menu" ).click(function() {
 			
-			try{
-				cordova.exec(function(winParam) {
-					alert("status "+ winParam);
-				}, function(error) {}, "statusCheck",
-	             "action", ["firstArgument", "secondArgument", 42,
-	             false]);
-			}catch(e){
-				alert("native call error");
-			}
-			
-			
-             	
-             return;
-             
              
 			var html = $('html');
 		     if(html.hasClass('menu')){
@@ -57,23 +43,20 @@ sample.main = (sample.main || {
 		
 		
 		$( "footer" ).click(function() {
-			footerHandler();
+			$("#viewPort").removeClass();
 		});
-		
-	
-		
 
 		$( ".option" ).click(function() {
 			var that = $(this);
 			
-			if(that.hasClass('_00')) footerHandler("Hotel");
+			if(that.hasClass('_00')) footerHandler("hotel");
 			else
-			if(that.hasClass('_01')) footerHandler("Transportion");
+			if(that.hasClass('_01')) footerHandler("uber");
 			else
-			if(that.hasClass('_02')) footerHandler("Hotel");
+			if(that.hasClass('_02')) footerHandler("entertainment");
 			
             
-			$(this).addClass("selected");		
+			//$(this).addClass("selected");		
 			
 		});
 		
@@ -161,15 +144,37 @@ function onSwipe(page_index){
 }
 
 
-function footerHandler(){	
-	 var footer = $("footer");
-     if(footer.hasClass('open')){
-	  	footer.removeClass('open');		  	
-	  }else{	  	
-		footer.addClass('open');	
-  	  }
-  	  
+function footerHandler(view_name){	
+	 var viewPort = $("#viewPort");
+	 viewPort.removeClass();		 
+	 viewPort.addClass(view_name);
+	 	  	
+}
+
+var current_status = 0;
+function flightStatus(){	
 	
+	var new_status = 0;
+	try{
+		cordova.exec(function(winParam) {
+			new_status= winParam;
+		}, function(error) {}, "statusCheck",
+         "action", ["firstArgument", "secondArgument", 42,
+         false]);
+	}catch(e){
+		alert("native call error");
+	}
+	
+	if(new_status != current_status){
+		$('html').addClass("_"+new_status);
+		current_status = new_status;
+		alert("new_status "+ new_status);
+	}
+	
+	
+	setTimeout( function() { 
+		flightStatus();
+	},1000);
 }
 
 

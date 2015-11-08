@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="_1">
 <head>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
@@ -56,6 +56,8 @@
     <header>
     	<div id="menu"></div>
     </header>
+    
+
 <!-- Swiper -->
 <div class="swiper-container">
   <div class="swiper-wrapper">
@@ -118,8 +120,8 @@
 
 </footer>
 </div>
-
-	<script type="text/javascript" src="cordova.js"></script>
+<!--
+	<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="js/jquery-1.11.3.min.js">
 	<script type="text/javascript" src="js/index.js"></script>
 
@@ -128,6 +130,7 @@
 
 <!-- Initialize Swiper -->
 <script>
+    var swiper = new Swiper('.swiper-container_mini');
     var swiper = new Swiper('.swiper-container');
     </script>
 </body>
