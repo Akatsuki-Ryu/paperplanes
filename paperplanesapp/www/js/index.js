@@ -16,7 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var deviceOnline = false;
+var deviceReady = false;
+
 var app = {
+    fragrance: null,
+    imei: "IMEI_NOT_AVAILABLE",
+
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -26,6 +33,7 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
+        document.addEventListener('online', this.onOnline, false);
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
     // deviceready Event Handler
@@ -34,7 +42,48 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        window.plugins.orientationLock.lock("portrait");
+        fragrance = FragrancePlugin;
+        fragrance.getImei(function(data) {
+            imei = data;
+            ws_analytics.imei = imei;
+            if( imei !== null )
+                document.getElementById("uuid").innerHTML = "IMEI: " + imei;
+            else
+                document.getElementById("uuid").innerHTML = "UUID: " + device.uuid;
+        },
+        function() {
+            console.log("error getting uuid");
+        });
+        // Alternative way to get uuid: device.uuid, but this is different from imei
+
+        document.getElementById("sendPageChangeEvent").addEventListener("click", app.pushActivePage);
+        document.getElementById("setQuestionnaireEvent").addEventListener("click", app.setQuestionnaire);
+        document.getElementById("getLatestTags").addEventListener("click", app.getLatestTags);
+        document.getElementById("getPageStatistics").addEventListener("click", app.getPageStatistics);
+        nfc.addTagDiscoveredListener(app.onNfc, null, null);
+        nfc.addTagDiscoveredListener(app.onNfc, null, null);
+        nfc.enabled(function() {
+            document.getElementById("nfcEnabled").innerHTML = "NFC device available!";
+            document.getElementById("nfcEnabled").style.color ="Green";
+        }, function() {
+            document.getElementById("nfcEnabled").innerHTML = "NFC not available!";
+            document.getElementById("nfcEnabled").style.color ="Red";
+        });
+        deviceReady = true;
+        ws_analytics.initialize();
+
+
     },
+
+    // online event handler
+    onOnline: function() {
+        app.receivedEvent('online');
+        deviceOnline = true;
+        ws_analytics.initialize();
+        ws_analytics.push_active_page("index");
+    },
+
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
@@ -45,6 +94,51 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+
+    onNfc: function(nfcEvent) {
+        console.log(JSON.stringify(nfcEvent.tag));
+        var tag = nfcEvent.tag;
+        document.getElementById("nfcTagNdef").innerHTML = "Tag ID: " + tag.id;
+
+        //TODO: Send websocket message to cloud
+        if( ws_analytics.ws.isConnected() ) {
+            var msg = {"tagid": tag.id, "tagtypes":  tag.techtype};
+            ws_analytics.register_tag(tag);
+        }
+    },
+
+    pushActivePage: function() {
+        //TODO: Send websocket message
+        console.log("push_active_page event");
+        ws_analytics.push_active_page("details");
+    },
+
+    setQuestionnaire: function() {
+        console.log("setQuestionnaire");
+        ws_analytics.set_questionnaire(true,null,null);
+    },
+
+    getLatestTags: function() {
+        console.log("getLatestTags");
+        ws_analytics.get_latest_tags(5, function(data) {
+            if( data !== null ) {
+                for( var i = 0; i < data.length; i++ ) {
+                    console.log(i.toString() + ": Tag ID: " + data[i].tagid);
+                }
+            }
+        });
+    },
+
+    getPageStatistics: function() {
+        console.log("get_page_statistics");
+        ws_analytics.get_page_statistics(function(data) {
+            if( data !== null ) {
+                for( var i = 0; i < data.length; i++ ) {
+                    console.log(i.toString() + ": Page: " + data[i].page + ", time spent: " + data[i].time_spent + ", visit count: " + data[i].visit_count);
+                }
+            }
+        });
     }
 };
 

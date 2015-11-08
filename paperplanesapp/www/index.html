@@ -1,49 +1,134 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+<html lang="en">
+<head>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="css/swiper.min.css">
+    
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
-    <head>
+  <!-- Demo styles -->
+  <style>
+    html, body {
+    position: relative;
+    height: 100%;
+    }
+    body {
+    background: #eee;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+    }
+    .swiper-slide {
+    background: #fff;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    }
+  </style>
+    <link rel="stylesheet" href="css/mainstyle.css" type="text/css" />
+
+    <script type="text/javascript" src="js/main.js">
+    </script>
+
+
+    <script type="text/javascript" charset="utf-8">
+
+			function onLoad() {
+				sample.main.init();
+			}
+
+		</script>
+</head>
+<body class="page_0"  onload="onLoad()">
+
+<div id="viewPort">
+    <header>
+    	<div id="menu"></div>
+    </header>
+<!-- Swiper -->
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    <ul class="swiper-slide" id="before">
+        <li class="box" >
+            
+        </li>
+    </ul>
+    <ul class="swiper-slide" id="flight_1">
+        <li class="box" >
+            
+        </li>
+    </ul>
+    <ul class="swiper-slide"  id="transfer">
+    	
+    	
+        
+        <li class="box" >
+        	<video id="myVideo" height="667">
+                <source src="helpinghand_slowmo.mp4" type="video/mp4">
+            </video>
+            <span id="_blue_bg"></span>
+        
+        </li>
+        
+        <li class="option _00">
+            
+        </li>
+        <li class="option _01">
+            
+        </li>
         <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </body>
+        <li class="option" >
+            transfer
+        </li>
+        
+        <li class="option" >
+            transfer
+        </li> -->
+    </ul>
+      <ul class="swiper-slide"  id="flight_2">
+          <li class="box" >
+              
+          </li>
+      </ul>
+      <ul class="swiper-slide"  id="after">
+          <li class="box" >
+              
+          </li>
+      </ul>
+  </div>
+</div>
+
+<footer>
+    <ul>
+        <li class="title">
+            
+        </li>        
+    </ul>
+
+</footer>
+</div>
+
+	<script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js">
+	<script type="text/javascript" src="js/index.js"></script>
+
+<!-- Swiper JS -->
+<script src="js/swiper.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper('.swiper-container');
+    </script>
+</body>
 </html>
